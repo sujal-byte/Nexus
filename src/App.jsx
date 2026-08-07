@@ -27,9 +27,9 @@ const mockData = {
 // ==========================================
 function MobileShell({ children }) {
   return (
-    <div className="min-h-screen bg-gray-950 flex justify-center items-center py-0 sm:py-6 px-0">
+    <div className="min-h-screen w-full bg-gray-950 flex justify-center items-center py-0 sm:py-6 px-0 overflow-x-hidden">
       {/* Fixed 390px Mobile Viewport Container */}
-      <div className="w-[390px] min-h-[844px] h-[844px] bg-gray-900 text-white font-sans overflow-y-auto border border-gray-800 sm:rounded-[36px] shadow-2xl relative flex flex-col justify-between overflow-x-hidden">
+      <div className="w-[390px] min-h-[844px] max-h-[844px] h-[844px] bg-gray-900 text-white font-sans overflow-y-auto border border-gray-800 sm:rounded-[36px] shadow-2xl relative flex flex-col justify-between mx-auto">
         {children}
       </div>
     </div>

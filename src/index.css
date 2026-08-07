@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset default browser text colors */
 * {
   color-scheme: dark;
+  box-sizing: border-box;
 }
 
 html, body, #root {
@@ -12,7 +12,7 @@ html, body, #root {
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: #030712; /* Dark slate background */
-  color: #f9fafb;            /* High-contrast white text */
+  background-color: #030712;
+  color: #f9fafb;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
