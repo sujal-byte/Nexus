@@ -43,10 +43,11 @@ function LandingPage() {
   const navigate = useNavigate();
 
   return (
-  <div className="min-h-full bg-gray-950 px-6 py-7 flex flex-col">
+  <div className="min-h-screen flex flex-col px-[18px]">
+
 
     {/* Top Header */}
-    <div className="flex justify-between items-center">
+    <div className="flex items-center justify-between pt-2">
       <span className="font-bold text-xl tracking-tight text-white">
         ABTalks
       </span>
@@ -99,7 +100,7 @@ function LandingPage() {
       </div>
 
       {/* Primary CTA */}
-<div className="pt-2">
+<div className="mt-auto pt-8 pb-4">
   <button
     onClick={() => navigate('/dashboard')}
     className="w-full rounded-xl bg-orange-500 py-4 text-sm font-bold tracking-wide text-white shadow-[0_8px_30px_rgba(249,115,22,0.25)] transition hover:bg-orange-400"
