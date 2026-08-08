@@ -43,57 +43,81 @@ function LandingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-5 flex flex-col justify-between h-full space-y-6">
-      {/* Top Header */}
-      <div className="flex justify-between items-center border-b border-gray-800 pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center font-bold text-white">#</div>
-          <span className="font-bold tracking-wide text-lg text-white">ABTalks</span>
-        </div>
-        <button 
+  <div className="min-h-full bg-gray-950 px-6 py-7 flex flex-col">
+
+    {/* Top Header */}
+    <div className="flex justify-between items-center">
+      <span className="font-bold text-xl tracking-tight text-white">
+        ABTalks
+      </span>
+
+        <button
           onClick={() => navigate('/dashboard')}
-          className="text-xs bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded-full border border-gray-700 transition"
+          className="text-sm font-medium text-gray-400 hover:text-white transition"
         >
           Login
         </button>
       </div>
 
       {/* Hero Content */}
-      <div className="space-y-4 my-auto">
-        <span className="bg-orange-500/10 text-orange-400 text-xs font-semibold px-3 py-1 rounded-full border border-orange-500/20 inline-block">
-          🔥 60-Day Coding Challenge
+      <div className="flex flex-col justify-center flex-1 space-y-5">
+        {/* Challenge Badge */}
+        <span className="self-start inline-block rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-orange-400">
+          🔥 60-DAY CODING CHALLENGE
         </span>
-        <h1 className="text-2xl font-extrabold leading-tight tracking-tight">
-          Build late at night. <br />
-          <span className="text-orange-500">Get hired by top companies.</span>
+
+        {/* Hero Heading */}
+        <h1 className="text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-white">
+          BUILD.
+          <br />
+          SHIP.
+          <br />
+          <span className="text-orange-500">GET NOTICED.</span>
         </h1>
-        <p className="text-gray-400 text-xs leading-relaxed">
-          A 60-day consistency sprint for Indian college students. Submit daily GitHub commits and LinkedIn posts to build proof-of-work.
+
+        {/* Supporting Text */}
+        <p className="max-w-[330px] text-sm leading-relaxed text-gray-400">
+          Turn 60 days of consistent work into proof employers can actually see.
         </p>
 
-        {/* Trust Badges */}
-        <div className="bg-gray-800/50 p-3.5 rounded-xl border border-gray-800 space-y-2">
-          <div className="flex items-center gap-2 text-xs text-gray-300">
-            <Trophy className="w-4 h-4 text-yellow-500" />
-            <span>12,000+ Students Participating</span>
+        {/* Stats Card */}
+        <div className="grid grid-cols-2 rounded-2xl border border-gray-800 bg-gray-900/70 px-4 py-5">
+          <div className="text-center border-r border-gray-800">
+            <p className="text-2xl font-extrabold text-white">12K+</p>
+            <p className="mt-1 text-[10px] font-semibold tracking-[0.15em] text-gray-500">
+              STUDENTS
+            </p>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-300">
-            <CheckCircle className="w-4 h-4 text-green-500" />
-            <span>150+ Recruiters Watching Leaderboard</span>
+
+          <div className="text-center">
+            <p className="text-2xl font-extrabold text-white">150+</p>
+            <p className="mt-1 text-[10px] font-semibold tracking-[0.15em] text-gray-500">
+              RECRUITERS
+            </p>
           </div>
         </div>
       </div>
 
       {/* Primary CTA */}
-      <div className="pt-2">
-        <button 
-          onClick={() => navigate('/dashboard')}
-          className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-3.5 rounded-xl shadow-lg transition text-sm flex items-center justify-center gap-2"
-        >
-          Commit to 60-Day Challenge →
-        </button>
-      </div>
-    </div>
+<div className="pt-2">
+  <button
+    onClick={() => navigate('/dashboard')}
+    className="w-full rounded-xl bg-orange-500 py-4 text-sm font-bold tracking-wide text-white shadow-[0_8px_30px_rgba(249,115,22,0.25)] transition hover:bg-orange-400"
+  >
+    START THE CHALLENGE →
+  </button>
+
+  <p className="mt-3 text-center text-xs text-gray-500">
+    Already joined?{" "}
+    <button
+      onClick={() => navigate('/dashboard')}
+      className="font-medium text-gray-300 hover:text-white transition"
+    >
+      Login
+    </button>
+  </p>
+</div>
+</div>
   );
 }
 
