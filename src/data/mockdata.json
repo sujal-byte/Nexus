@@ -1,0 +1,79 @@
+{
+  "activeUser": {
+    "name": "Sujal Parmar",
+    "track": "Full-Stack Web Development",
+    "currentStreak": 11,
+    "totalCompleted": 11,
+    "totalDays": 60,
+    "rank": 142,
+    "totalStudents": 12000,
+    "standing": "Top 5% (Tier 1 Leaderboard)",
+    "todayTask": {
+      "dayNumber": 12,
+      "title": "Build a Responsive Pricing Card",
+      "estTime": "45 mins",
+      "status": "pending"
+    },
+    "recentBadges": ["🔥 10-Day Flame", "⚡ Fast Shipper"]
+  },
+  "dayOneUser": {
+    "name": "Sujal Parmar",
+    "track": "Full-Stack Web Development",
+    "currentStreak": 0,
+    "totalCompleted": 0,
+    "totalDays": 60,
+    "rank": null,
+    "totalStudents": 12000,
+    "standing": "Unranked — Complete Day 1 to unlock!",
+    "todayTask": {
+      "dayNumber": 1,
+      "title": "Set Up Git, GitHub & First HTML Shell",
+      "estTime": "30 mins",
+      "status": "pending"
+    },
+    "recentBadges": []
+  },
+  "missedDayUser": {
+    "name": "Sujal Parmar",
+    "track": "Full-Stack Web Development",
+    "currentStreak": 0,
+    "totalCompleted": 8,
+    "totalDays": 60,
+    "rank": null,
+    "totalStudents": 12000,
+    "standing": "Streak Broken — Freeze Active",
+    "todayTask": {
+      "dayNumber": 9,
+      "title": "JavaScript DOM Manipulation",
+      "estTime": "50 mins",
+      "status": "pending"
+    },
+    "recentBadges": ["🔥 7-Day Flame"]
+  },
+  "testCases": [
+    {
+      "id": 1,
+      "title": "Test Case 1: Viewport Responsiveness",
+      "description": "Verifies that the pricing grid automatically collapses cleanly from 3 columns to 1 column at a 390px mobile breakpoint.",
+      "status": "Passed",
+      "category": "UI / Layout",
+      "executionTime": "124ms"
+    },
+    {
+      "id": 2,
+      "title": "Test Case 2: State Persistence & Local Storage",
+      "description": "Ensures user streak counts and completed task states are correctly saved across browser sessions without data loss.",
+      "status": "Passed",
+      "category": "State Management",
+      "executionTime": "89ms"
+    },
+    {
+      "id": 3,
+      "title": "Test Case 3: Proof-of-Work URL Validation",
+      "description": "Validates that submitted GitHub repository and LinkedIn post URLs match proper regex patterns before enabling streak extension.",
+      "status": "Passed",
+      "category": "Form Validation",
+      "executionTime": "45ms"
+    }
+  ]
+}
