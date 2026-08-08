@@ -1,8 +1,85 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
-import { Flame, CheckCircle, GitBranch, Share2, ArrowLeft, Trophy, Terminal, ShieldCheck, Cpu, Code2, AlertCircle, Sparkles, Plus, X } from 'lucide-react';
-import mockData from './data/mockData.json';
-import logo from './assets/logo.png'; // Use your exact filename and extension
+// Look here: Removed all social icons from this import so it cannot crash!
+import { Flame, CheckCircle, GitBranch, Share2, ArrowLeft, Trophy, Terminal, ShieldCheck, Cpu, Code2, AlertCircle, Sparkles, Plus, X, Users, HelpCircle } from 'lucide-react';
+import logo from './assets/logo.png'; 
+
+// ==========================================
+// MOCK DATA (Embedded to prevent import crashes)
+// ==========================================
+const mockData = {
+  activeUser: {
+    name: "Sujal Parmar",
+    track: "Full-Stack Web Development",
+    currentStreak: 11,
+    totalCompleted: 11,
+    totalDays: 60,
+    standing: "Top 5% (Tier 1 Leaderboard)",
+    todayTask: {
+      dayNumber: 12,
+      title: "Build a Responsive Pricing Table",
+      estTime: "45 mins",
+      status: "pending"
+    },
+    recentBadges: ["First Commit", "7-Day Streak"]
+  },
+  dayOneUser: {
+    name: "Sujal Parmar",
+    track: "Full-Stack Web Development",
+    currentStreak: 0,
+    totalCompleted: 0,
+    totalDays: 60,
+    standing: "Unranked",
+    todayTask: {
+      dayNumber: 1,
+      title: "Initialize Git Repository",
+      estTime: "15 mins",
+      status: "pending"
+    },
+    recentBadges: []
+  },
+  missedDayUser: {
+    name: "Sujal Parmar",
+    track: "Full-Stack Web Development",
+    currentStreak: 0,
+    totalCompleted: 11,
+    totalDays: 60,
+    standing: "Top 10%",
+    todayTask: {
+      dayNumber: 13,
+      title: "Fix Streak Freeze",
+      estTime: "30 mins",
+      status: "pending"
+    },
+    recentBadges: ["First Commit"]
+  },
+  testCases: [
+    {
+      id: 1,
+      title: "Test Case 1: Viewport Responsiveness",
+      description: "Verifies that the pricing grid automatically collapses cleanly.",
+      status: "Passed",
+      category: "UI / Layout",
+      executionTime: "124ms"
+    },
+    {
+      id: 2,
+      title: "Test Case 2: State Persistence & Local Storage",
+      description: "Ensures user streak counts are saved across sessions.",
+      status: "Passed",
+      category: "State Management",
+      executionTime: "89ms"
+    },
+    {
+      id: 3,
+      title: "Test Case 3: Proof-of-Work URL Validation",
+      description: "Validates submitted GitHub repository and LinkedIn post URLs.",
+      status: "Passed",
+      category: "Form Validation",
+      executionTime: "45ms"
+    }
+  ]
+};
 
 // ==========================================
 // FULL-WIDTH DESKTOP/MOBILE WRAPPER
@@ -20,20 +97,42 @@ function FullWidthLayout({ children }) {
 // ==========================================
 function LandingPage() {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const faqs = [
+    {
+      q: "What is the ABTalks 60-Day Challenge?",
+      a: "It is a 60-day consistency sprint for college students designed to build real-world software proof-of-work through daily code commits and public building updates."
+    },
+    {
+      q: "How does the daily streak verification work?",
+      a: "You submit your GitHub commit link and LinkedIn post URL for each day's task. Once validated, your streak extends on your student dashboard."
+    },
+    {
+      q: "What happens if I miss a day?",
+      a: "If you miss a deadline, your streak breaks. Completing the next day's task allows you to activate a Streak Freeze and recover your progress."
+    },
+    {
+      q: "Is this program free for college students?",
+      a: "Yes! The 60-Day Challenge is completely free to participate in for all engineering and computer science students."
+    }
+  ];
 
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-20 py-8 max-w-7xl mx-auto">
-      <div className="flex justify-between items-center border-b border-gray-800 pb-6 w-full">
+    <div className="w-full min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-20 py-8 max-w-7xl mx-auto space-y-16">
+      
+      {/* 1. HEADER */}
+      <div className="flex justify-between items-center border-b border-gray-800 pb-6 w-full relative">
         <div className="flex items-center gap-3">
           <img 
             src={logo} 
             alt="ABTalks Logo" 
             className="w-40 h-40 object-contain" 
           />
-          <span className="absolute left-1/2 -translate-x-1/2 font-extrabold tracking-wide text-6xl text-white">
-    AB Talks
-  </span>
         </div>
+        <span className="absolute left-1/2 -translate-x-1/2 font-extrabold tracking-wide text-4xl sm:text-6xl text-white">
+          AB Talks
+        </span>
         <button
           onClick={() => navigate('/dashboard')}
           className="text-sm bg-gray-800 hover:bg-gray-700 text-gray-200 px-6 py-2.5 rounded-full border border-gray-700 transition font-semibold"
@@ -42,7 +141,8 @@ function LandingPage() {
         </button>
       </div>
 
-      <div className="space-y-8 my-auto flex flex-col items-center text-center py-12 max-w-4xl mx-auto">
+      {/* 2. HERO SECTION */}
+      <div className="space-y-8 flex flex-col items-center text-center py-12 max-w-4xl mx-auto">
         <span className="bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full border border-orange-500/20 inline-block">
           🔥 60-Day Coding Challenge
         </span>
@@ -81,7 +181,118 @@ function LandingPage() {
         </div>
       </div>
 
-      <div className="text-center text-xs text-gray-500 pb-4">
+      {/* 3. WHO ARE WE SECTION */}
+      <div className="bg-gray-900/80 p-8 sm:p-12 rounded-3xl border border-gray-800 space-y-6 w-full max-w-5xl mx-auto shadow-2xl">
+        <div className="flex items-center gap-3 text-orange-400">
+          <Users className="w-10 h-10" />
+          <span className="text-xl sm:text-6xl font-bold uppercase tracking-wider">
+            Who are we?
+          </span>
+        </div>
+        
+        <h2 className="space-y-4 text-xl sm:text-xl lg:text-xl text-white">
+          <p>
+           AB Talks on AI is a platform focused on demystifying the rapidly evolving landscape of Artificial Intelligence and technology leadership. Hosted by tech leader Anil Bajpai, the channel features insightful conversations, technical breakdowns, and high-impact podcast sessions with industry experts, architects, and innovators.
+          </p> <p>
+            From deep dives into Generative AI, RAG, and Agentic AI to practical advice on building future-proof tech careers, AB Talks on AI serves as an empowering space for students, engineers, and professionals looking to innovate, upskill, and stay ahead in the age of AI.
+          </p>
+        </h2>
+        
+        <div className="text-gray-400 leading-relaxed text-base sm:text-lg lg:text-xl">
+          <p>
+            "AI is not just about the models you use—it’s about critical thinking, continuous self-learning, and how you apply technology to solve real-world problems. Don't just blindly rely on tools; focus on building strong fundamentals and keep evolving, because the learning never stops."
+          </p>
+        </div>
+
+        {/* 4. SOCIAL MEDIA LINKS (USING RAW SVGs INSTEAD OF LUCIDE) */}
+        <div className="flex items-center gap-4 pt-4">
+          
+          {/* LinkedIn Raw SVG */}
+          <a 
+            href="https://www.linkedin.com/company/abtalks-on-ai/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-3 bg-gray-800 hover:bg-orange-600 text-gray-300 hover:text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-orange-600/30 flex items-center justify-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+
+          {/* Instagram Raw SVG */}
+          <a 
+            href="https://www.instagram.com/abtalksonai?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-3 bg-gray-800 hover:bg-orange-600 text-gray-300 hover:text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-orange-600/30 flex items-center justify-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+
+          {/* YouTube Raw SVG */}
+          <a 
+            href="https://youtu.be/Tr4GdaRenCA?si=xzagD0kovt1mkkrv" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="p-3 bg-gray-800 hover:bg-orange-600 text-gray-300 hover:text-white rounded-full transition-all duration-300 shadow-lg hover:shadow-orange-600/30 flex items-center justify-center"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
+              <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+            </svg>
+          </a>
+        </div>
+      </div> 
+
+      {/* 5. FAQs SECTION */}
+      <div className="space-y-6 w-full max-w-4xl mx-auto pb-8">
+        <div className="text-center space-y-2">
+          <div className="flex items-center justify-center gap-2 text-orange-400">
+            <HelpCircle className="w-5 h-5" />
+            <span className="text-xs font-bold uppercase tracking-wider">Got Questions?</span>
+          </div>
+          <h2 className="text-3xl font-extrabold text-white">FAQ's</h2>
+        </div>
+
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div
+              key={index}
+              className="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 cursor-pointer transition hover:border-gray-700"
+              onClick={() => setOpenFaq(openFaq === index ? null : index)}
+            >
+              <div className="flex justify-between items-center gap-4">
+                <h3 className="font-bold text-white text-base sm:text-lg">{faq.q}</h3>
+                <span className="text-orange-400 font-extrabold text-xl">
+                  {openFaq === index ? '−' : '+'}
+                </span>
+              </div>
+              {openFaq === index && (
+                <p className="text-gray-400 text-sm mt-3 pt-3 border-t border-gray-800 leading-relaxed">
+                  {faq.a}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* NEW: Reach out text */}
+        <div className="text-center pt-8">
+          <p className="text-gray-400 text-sm sm:text-base">
+            Got more questions? <br className="sm:hidden" />
+            Reach out to us on <a href="mailto:abtalks.podcast@gmail.com" className="text-orange-500 font-bold hover:text-orange-400 hover:underline transition-all">abtalks.podcast@gmail.com</a>
+          </p>
+        </div>
+      </div>
+
+      {/* 6. FOOTER */}
+      <div className="text-center text-xs text-gray-500 pb-4 border-t border-gray-800 pt-8">
         ABTalks Platform • Member 3 Module Integrated
       </div>
     </div>
@@ -90,8 +301,6 @@ function LandingPage() {
 
 // ==========================================
 // DASHBOARD SUB-COMPONENT: STREAK / STATUS BANNER
-// Handles all 3 required edge cases:
-//   Day 1 (No Streak) · Missed Day · Active Streak
 // ==========================================
 function StreakBanner({ profileState, user }) {
   if (profileState === 'dayOne') {
@@ -122,7 +331,6 @@ function StreakBanner({ profileState, user }) {
     );
   }
 
-  // Default: active streak
   return (
     <div className="bg-gradient-to-br from-orange-950/40 via-gray-900 to-gray-900 p-8 rounded-2xl border border-orange-500/30 shadow-xl">
       <div className="flex items-center gap-3">
@@ -138,7 +346,6 @@ function StreakBanner({ profileState, user }) {
 
 // ==========================================
 // DASHBOARD SUB-COMPONENT: 60-DAY PROGRESS GRID
-// GitHub-style contribution grid
 // ==========================================
 function ProgressGrid({ totalCompleted, todayDayNumber, totalDays = 60 }) {
   const squares = Array.from({ length: totalDays }, (_, i) => i + 1);
@@ -155,7 +362,7 @@ function ProgressGrid({ totalCompleted, todayDayNumber, totalDays = 60 }) {
       </div>
       <div className="grid grid-cols-10 sm:grid-cols-12 lg:grid-cols-15 gap-1.5">
         {squares.map((day) => {
-          let color = 'bg-gray-800 border border-gray-700'; // upcoming
+          let color = 'bg-gray-800 border border-gray-700';
           if (day <= totalCompleted) {
             color = 'bg-green-500 border border-green-400/40';
           } else if (day === todayDayNumber) {
@@ -176,7 +383,6 @@ function ProgressGrid({ totalCompleted, todayDayNumber, totalDays = 60 }) {
 
 // ==========================================
 // DASHBOARD SUB-COMPONENT: DEV EDGE-CASE TOGGLE
-// Floating pill — lets judges switch states with one tap
 // ==========================================
 function DevEdgeCaseToggle({ profileState, setProfileState }) {
   const options = [
@@ -203,11 +409,11 @@ function DevEdgeCaseToggle({ profileState, setProfileState }) {
 }
 
 // ==========================================
-// ROUTE 2: STUDENT DASHBOARD (/dashboard) - MEMBER 3
+// ROUTE 2: STUDENT DASHBOARD (/dashboard)
 // ==========================================
 function Dashboard() {
   const navigate = useNavigate();
-  const [profileState, setProfileState] = useState('active'); // 'active' | 'dayOne' | 'missed'
+  const [profileState, setProfileState] = useState('active');
 
   const userMap = {
     active: mockData.activeUser,
@@ -221,7 +427,6 @@ function Dashboard() {
     <div className="w-full min-h-screen flex flex-col px-6 sm:px-12 lg:px-20 py-8 max-w-7xl mx-auto space-y-8">
       <DevEdgeCaseToggle profileState={profileState} setProfileState={setProfileState} />
 
-      {/* Top Header */}
       <div className="flex flex-col sm:flex-row w-full justify-between items-center border-b border-gray-800 pb-6 gap-4">
         <div className="flex items-center gap-4 text-center sm:text-left">
           <div className="w-12 h-12 rounded-full bg-orange-600 flex items-center justify-center font-extrabold text-lg shrink-0 shadow-lg shadow-orange-600/30">
@@ -255,10 +460,8 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Hero Streak / Status Banner (handles all 3 edge cases) */}
       <StreakBanner profileState={profileState} user={user} />
 
-      {/* Student Analytics Overview */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="bg-gray-900/80 p-6 rounded-2xl border border-gray-800 shadow-lg">
           <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">Days Completed</span>
@@ -279,7 +482,9 @@ function Dashboard() {
           ) : (
             <p className="text-lg font-extrabold text-gray-300 mt-2">{user.standing}</p>
           )}
-          <p className="text-xs text-gray-400 mt-3">Verified across {user.totalStudents.toLocaleString()}+ peers.</p>
+          <p className="text-xs text-gray-400 mt-3">
+  Verified across {user.totalStudents ? user.totalStudents.toLocaleString() : "12,000"}+ peers.
+</p>
         </div>
 
         <div className="bg-gray-900/80 p-6 rounded-2xl border border-gray-800 shadow-lg">
@@ -291,7 +496,6 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* 60-Day Grid Visualizer */}
       <ProgressGrid
         totalCompleted={user.totalCompleted}
         todayDayNumber={user.todayTask.dayNumber}
@@ -324,7 +528,6 @@ function Dashboard() {
           </button>
         </div>
 
-        {/* Today's Task Card */}
         <div className="bg-gradient-to-br from-orange-950/30 via-gray-900 to-gray-900 p-8 rounded-2xl border border-orange-500/30 space-y-4 lg:col-span-2 shadow-xl flex flex-col justify-between">
           <div>
             <span className="text-xs bg-orange-500/20 text-orange-400 px-3 py-1 rounded font-bold uppercase tracking-wider inline-block mb-3">
@@ -354,7 +557,7 @@ function Dashboard() {
 }
 
 // ==========================================
-// ROUTE 3: TEST CASES MODULE (/test-cases) - MEMBER 3
+// ROUTE 3: TEST CASES MODULE (/test-cases)
 // ==========================================
 function TestCasesModule() {
   const navigate = useNavigate();
