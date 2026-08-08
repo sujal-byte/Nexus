@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import { Flame, CheckCircle, GitBranch, Share2, ArrowLeft, Trophy, Terminal, ShieldCheck, Cpu, Code2, AlertCircle, Sparkles, Plus, X } from 'lucide-react';
 import mockData from './data/mockData.json';
+import logo from './assets/logo.png'; // Use your exact filename and extension
 
 // ==========================================
 // FULL-WIDTH DESKTOP/MOBILE WRAPPER
@@ -24,8 +25,14 @@ function LandingPage() {
     <div className="w-full min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-20 py-8 max-w-7xl mx-auto">
       <div className="flex justify-between items-center border-b border-gray-800 pb-6 w-full">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-orange-600 rounded-xl flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-orange-600/30">#</div>
-          <span className="font-extrabold tracking-wide text-2xl text-white">ABTalks</span>
+          <img 
+            src={logo} 
+            alt="ABTalks Logo" 
+            className="w-40 h-40 object-contain" 
+          />
+          <span className="absolute left-1/2 -translate-x-1/2 font-extrabold tracking-wide text-6xl text-white">
+    AB Talks
+  </span>
         </div>
         <button
           onClick={() => navigate('/dashboard')}
