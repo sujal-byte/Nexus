@@ -652,12 +652,62 @@ function ChallengeDay() {
   const navigate = useNavigate();
   const { dayId } = useParams();
 
+  // DYNAMIC TASK DATA: Changes based on the day clicked
+  const taskData = {
+    "1": {
+      title: "Initialize Git Repository",
+      req1: "Create a new public repository on GitHub named '60-day-challenge'.",
+      req2: "Add a detailed README.md file with your goals for the sprint.",
+      code: [
+        "// Terminal Commands",
+        "git init",
+        "git add README.md",
+        "git commit -m 'Day 1: Challenge Accepted'",
+        "git push -u origin main"
+      ]
+    },
+    "12": {
+      title: "Build a Responsive Pricing Card",
+      req1: "Build 3 cards: Starter ($0), Pro ($19), Enterprise ($99).",
+      req2: "Ensure mobile grid collapses cleanly at 390px viewport width.",
+      code: [
+        "// React Component Structure",
+        "export default function Pricing() {",
+        "  return (",
+        "    <div className=\"grid grid-cols-1 md:grid-cols-3 gap-4\">",
+        "      {/* Pricing Cards Here */}",
+        "    </div>",
+        "  );",
+        "}"
+      ]
+    },
+    "13": {
+      title: "Fix Streak Freeze",
+      req1: "Complete the pending React Context provider from yesterday.",
+      req2: "Write a LinkedIn post explaining how you recovered your streak.",
+      code: [
+        "// React Context Setup",
+        "export const StreakContext = createContext();",
+        "export function StreakProvider({ children }) {",
+        "  return (",
+        "    <StreakContext.Provider value={{ frozen: true }}>",
+        "      {children}",
+        "    </StreakContext.Provider>",
+        "  );",
+        "}"
+      ]
+    }
+  };
+
+  // Grab the current task data, default to 12 if unknown day is passed
+  const currentTask = taskData[dayId] || taskData["12"];
+
   const [activeTab, setActiveTab] = useState('overview');
   const [githubUrl, setGithubUrl] = useState('');
   const [linkedinUrl, setLinkedinUrl] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
-  const [checkedItems, setCheckedItems] = useState({ req1: false, req2: false, req3: false });
+  const [checkedItems, setCheckedItems] = useState({ req1: false, req2: false });
   const [extraTasks, setExtraTasks] = useState([]);
   const [newExtraTask, setNewExtraTask] = useState('');
 
@@ -706,7 +756,8 @@ function ChallengeDay() {
       </div>
 
       <div className="w-full">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight">Build a Responsive Pricing Card</h2>
+        {/* Dynamic Title */}
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight">{currentTask.title}</h2>
         <p className="text-sm text-gray-400 mt-1">Track: Full-Stack Web Development</p>
       </div>
 
@@ -744,7 +795,7 @@ function ChallengeDay() {
                   className="mt-1 rounded accent-orange-500 w-4 h-4 shrink-0"
                 />
                 <span className={checkedItems.req1 ? 'line-through text-gray-500' : ''}>
-                  Build 3 cards: Starter ($0), Pro ($19), Enterprise ($99).
+                  {currentTask.req1}
                 </span>
               </label>
 
@@ -756,7 +807,7 @@ function ChallengeDay() {
                   className="mt-1 rounded accent-orange-500 w-4 h-4 shrink-0"
                 />
                 <span className={checkedItems.req2 ? 'line-through text-gray-500' : ''}>
-                  Ensure mobile grid collapses cleanly at 390px viewport width.
+                  {currentTask.req2}
                 </span>
               </label>
             </div>
@@ -825,15 +876,10 @@ function ChallengeDay() {
           )}
 
           {activeTab === 'sandbox' && (
-            <div className="bg-gray-950 p-6 rounded-2xl border border-gray-800 font-mono text-xs sm:text-sm text-gray-300 space-y-2 shadow-xl">
-              <div className="text-gray-500">// React Component Structure</div>
-              <div className="text-orange-400">export default function Pricing() {'{'}</div>
-              <div className="pl-4 text-gray-300">return (</div>
-              <div className="pl-8 text-green-400">&lt;div className="grid grid-cols-1 gap-4"&gt;</div>
-              <div className="pl-12 text-gray-400">{'{/* Pricing Cards Here */}'}</div>
-              <div className="pl-8 text-green-400">&lt;/div&gt;</div>
-              <div className="pl-4 text-gray-300">);</div>
-              <div className="text-orange-400">{'}'}</div>
+            <div className="bg-gray-950 p-6 rounded-2xl border border-gray-800 shadow-xl overflow-x-auto">
+              <pre className="font-mono text-xs sm:text-sm text-gray-300">
+                {currentTask.code.join('\n')}
+              </pre>
             </div>
           )}
         </div>
