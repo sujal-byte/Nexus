@@ -710,6 +710,9 @@ function ChallengeDay() {
   const [checkedItems, setCheckedItems] = useState({ req1: false, req2: false });
   const [extraTasks, setExtraTasks] = useState([]);
   const [newExtraTask, setNewExtraTask] = useState('');
+  
+  // NEW: State for loading animation during validation
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const addExtraTask = (e) => {
     e.preventDefault();
@@ -727,17 +730,44 @@ function ChallengeDay() {
     setExtraTasks(prev => prev.filter(t => t.id !== id));
   };
 
+  // NEW: Strict Regex Validation
   const validateUrls = () => {
     const newErrors = {};
-    if (!githubUrl) newErrors.github = "Required.";
-    if (!linkedinUrl) newErrors.linkedin = "Required.";
+
+    // GitHub Regex: Must match https://github.com/username/repo-name
+    const githubRegex = /^https:\/\/(www\.)?github\.com\/[a-zA-Z0-9-]+\/[a-zA-Z0-9_.-]+/;
+    if (!githubUrl) {
+      newErrors.github = "Required.";
+    } else if (!githubRegex.test(githubUrl)) {
+      newErrors.github = "Must be a full repo link (e.g., github.com/user/repo).";
+    }
+
+    // LinkedIn Regex: Must match a post or activity link
+    const linkedinRegex = /^https:\/\/(www\.)?linkedin\.com\/(posts|feed\/update|in\/[a-zA-Z0-9-]+\/recent-activity)/;
+    if (!linkedinUrl) {
+      newErrors.linkedin = "Required.";
+    } else if (!linkedinRegex.test(linkedinUrl)) {
+      newErrors.linkedin = "Must be a valid post link (e.g., linkedin.com/posts/...).";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // NEW: Submission with loading state
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateUrls()) setSubmitted(true);
+    
+    // If URLs pass the strict regex format
+    if (validateUrls()) {
+      setIsVerifying(true); // Start loading state
+      
+      // Simulate a network request checking the links (1.5 seconds)
+      setTimeout(() => {
+        setIsVerifying(false);
+        setSubmitted(true);
+      }, 1500);
+    }
   };
 
   return (
@@ -927,11 +957,20 @@ function ChallengeDay() {
                 </div>
               </div>
 
+              {/* NEW: Button with Verify Loading State */}
               <button
                 type="submit"
-                className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-3.5 rounded-xl text-sm shadow-lg shadow-orange-600/20 transition mt-2"
+                disabled={isVerifying}
+                className="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold py-3.5 rounded-xl text-sm shadow-lg shadow-orange-600/20 transition mt-2 disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               >
-                Ship Day {dayId || 12} & Extend Streak 🔥
+                {isVerifying ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    Verifying Links...
+                  </>
+                ) : (
+                  `Ship Day ${dayId || 12} & Extend Streak 🔥`
+                )}
               </button>
             </form>
           ) : (
