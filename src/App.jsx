@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useParams } from 'react-router-dom';
-import { Flame, CheckCircle, GitBranch, Share2, ArrowLeft, Trophy, Terminal, ShieldCheck, Cpu, Code2, AlertCircle, Sparkles } from 'lucide-react';
+import { Flame, CheckCircle, GitBranch, Share2, ArrowLeft, Trophy, Terminal, ShieldCheck, Cpu, Code2, AlertCircle, Sparkles, Plus, X } from 'lucide-react';
 import mockData from './data/mockData.json';
 
 // ==========================================
@@ -448,6 +448,24 @@ function ChallengeDay() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
   const [checkedItems, setCheckedItems] = useState({ req1: false, req2: false, req3: false });
+  const [extraTasks, setExtraTasks] = useState([]);
+  const [newExtraTask, setNewExtraTask] = useState('');
+
+  const addExtraTask = (e) => {
+    e.preventDefault();
+    const text = newExtraTask.trim();
+    if (!text) return;
+    setExtraTasks(prev => [...prev, { id: Date.now(), text, done: false }]);
+    setNewExtraTask('');
+  };
+
+  const toggleExtraTask = (id) => {
+    setExtraTasks(prev => prev.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  };
+
+  const removeExtraTask = (id) => {
+    setExtraTasks(prev => prev.filter(t => t.id !== id));
+  };
 
   const validateUrls = () => {
     const newErrors = {};
@@ -531,6 +549,68 @@ function ChallengeDay() {
                   Ensure mobile grid collapses cleanly at 390px viewport width.
                 </span>
               </label>
+            </div>
+          )}
+
+          {activeTab === 'overview' && (
+            <div className="bg-gray-900/80 p-6 sm:p-8 rounded-2xl border border-gray-800 space-y-4 shadow-xl">
+              <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+                <p className="text-sm font-bold text-gray-200">Extra Tasks</p>
+                <span className="text-[10px] bg-gray-800 text-gray-400 px-2.5 py-1 rounded-full border border-gray-700 font-bold uppercase tracking-wider">
+                  Optional • Doesn't affect streak
+                </span>
+              </div>
+
+              <p className="text-xs text-gray-500">
+                Add your own stretch goals for today. These are just for you — skipping them won't break your streak as long as the main task above is done.
+              </p>
+
+              <form onSubmit={addExtraTask} className="flex gap-2">
+                <input
+                  type="text"
+                  value={newExtraTask}
+                  onChange={(e) => setNewExtraTask(e.target.value)}
+                  placeholder="e.g. Add dark mode toggle"
+                  className="flex-1 bg-gray-950 border border-gray-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-orange-500/50"
+                />
+                <button
+                  type="submit"
+                  className="bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 px-3.5 rounded-xl transition shrink-0"
+                  aria-label="Add extra task"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </form>
+
+              {extraTasks.length > 0 ? (
+                <div className="space-y-2 pt-1">
+                  {extraTasks.map((task) => (
+                    <div
+                      key={task.id}
+                      className="flex items-start gap-3 text-sm text-gray-300 bg-gray-950 border border-gray-800 rounded-xl px-3.5 py-2.5"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={task.done}
+                        onChange={() => toggleExtraTask(task.id)}
+                        className="mt-1 rounded accent-orange-500 w-4 h-4 shrink-0"
+                      />
+                      <span className={`flex-1 ${task.done ? 'line-through text-gray-500' : ''}`}>
+                        {task.text}
+                      </span>
+                      <button
+                        onClick={() => removeExtraTask(task.id)}
+                        className="text-gray-600 hover:text-red-400 transition shrink-0"
+                        aria-label="Remove extra task"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-gray-600 italic pt-1">No extra tasks added yet.</p>
+              )}
             </div>
           )}
 
