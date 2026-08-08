@@ -127,10 +127,10 @@ function LandingPage() {
           <img 
             src={logo} 
             alt="ABTalks Logo" 
-            className="w-40 h-40 object-contain" 
+            className="w-20 h-20 object-contain" 
           />
         </div>
-        <span className="absolute left-1/2 -translate-x-1/2 font-extrabold tracking-wide text-4xl sm:text-6xl text-white">
+        <span className="absolute left-[38%] sm:left-1/2 -translate-x-1/2 font-extrabold tracking-wide text-1xl sm:text-2xl text-white whitespace-nowrap">
           AB Talks
         </span>
         <button
