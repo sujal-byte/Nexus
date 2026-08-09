@@ -75,7 +75,8 @@ public/                    # Favicon, static icons
 | `/` | Landing page |
 | `/dashboard` | Student dashboard |
 | `/day/:dayId` | Daily task + submission page (e.g. `/day/12`) |
-| `/test-cases` | Test verification page |
+
+These match `ROUTE_MAP.txt` exactly. (There's also a `/test-cases` page in the app for verification purposes, but it isn't part of the three required submission routes.)
 
 ---
 

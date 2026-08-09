@@ -1,6 +1,6 @@
 # AI Logs
 
-A log of the prompts used with AI tools (Claude / ChatGPT) while building Nexus — from initial setup to final polish. Kept roughly in build order.
+A log of the prompts used with AI tools (Claude / ChatGPT / Gemini) while building Nexus — from initial setup to final polish. Kept roughly in build order.
 
 ---
 
